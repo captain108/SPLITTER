@@ -37,7 +37,7 @@ def status():
     running = is_process_running(APP_SCRIPT)
     return f"{APP_SCRIPT} is {'running ✅' if running else 'not running ❌'}."
 
-if name == "__main__":
+if __name__ == "__main__":
     # Start monitor in background
     monitor_thread = threading.Thread(target=monitor_app)
     monitor_thread.daemon = True
