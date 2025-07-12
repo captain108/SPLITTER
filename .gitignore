@@ -1,5 +1,42 @@
+# Python cache files
 __pycache__/
-monitors.json
-*.pyc
+*.py[cod]
+
+# Environment files
 .env
+*.env
+
+# System files
 .DS_Store
+Thumbs.db
+
+# Python virtual environments
+venv/
+env/
+
+# Logs
+*.log
+
+# Output files
+*.txt
+*.vcf
+*.zip
+*.tar.gz
+
+# Bot state files
+subscriptions1.json
+session*/  # Pyrogram session folders
+*.session
+*.session-journal
+
+# Editor folders
+.vscode/
+.idea/
+
+# OS junk
+*.swp
+*.swo
+*~
+
+# Termux specific
+storage/
