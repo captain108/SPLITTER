@@ -1,59 +1,47 @@
 import os
 import subprocess
-import threading
 import time
+import threading
 from flask import Flask
 
-app = Flask(__name__)
+app = Flask(name)
 
-APP_SCRIPT = "app.py"          # The script to monitor
-CHECK_INTERVAL = 300           # 5 minutes (300 seconds)
-process = None                 # Store Popen process if needed
+APP_SCRIPT = "app.py"
+CHECK_INTERVAL = 300  # 5 minutes
+process = None
 
-def is_process_running(script_name):
-    """Check if a process is running using pgrep."""
+def is_process_running(name):
     try:
-        output = subprocess.check_output(["pgrep", "-f", script_name])
+        # Use pgrep to check if script is running
+        output = subprocess.check_output(["pgrep", "-f", name])
         return bool(output.strip())
     except subprocess.CalledProcessError:
         return False
 
 def start_app():
-    """Start the target app.py script."""
     global process
-    if os.path.exists(APP_SCRIPT):
-        print(f"▶️ Starting {APP_SCRIPT}...")
-        process = subprocess.Popen(["python3", APP_SCRIPT], start_new_session=True)
-    else:
-        print(f"❌ ERROR: {APP_SCRIPT} not found!")
+    print(f"Starting {APP_SCRIPT}...")
+    process = subprocess.Popen(["python3", APP_SCRIPT])
 
-def monitor_loop():
-    """Background monitor loop that checks the app."""
+def monitor_app():
     while True:
         if not is_process_running(APP_SCRIPT):
-            print(f"🔁 {APP_SCRIPT} is not running. Restarting...")
+            print(f"{APP_SCRIPT} is not running. Restarting...")
             start_app()
         else:
-            print(f"✅ {APP_SCRIPT} is running.")
+            print(f"{APP_SCRIPT} is running.")
         time.sleep(CHECK_INTERVAL)
 
 @app.route("/")
-def status_page():
+def status():
     running = is_process_running(APP_SCRIPT)
-    return f"""
-    <html>
-      <head><title>App Monitor Status</title></head>
-      <body style='font-family:sans-serif;text-align:center;margin-top:50px;'>
-        <h1>🖥️ Monitor Status</h1>
-        <h2>{APP_SCRIPT} is {'<span style="color:green;">Running ✅</span>' if running else '<span style="color:red;">Not Running ❌</span>'}</h2>
-        <p>Checked every {CHECK_INTERVAL} seconds.</p>
-      </body>
-    </html>
-    """
+    return f"{APP_SCRIPT} is {'running ✅' if running else 'not running ❌'}."
 
 if __name__ == "__main__":
-    # Start the monitoring loop in a background thread
-    threading.Thread(target=monitor_loop, daemon=True).start()
+    # Start monitor in background
+    monitor_thread = threading.Thread(target=monitor_app)
+    monitor_thread.daemon = True
+    monitor_thread.start()
 
-    # Run the Flask server
+    # Start Flask app
     app.run(host="0.0.0.0", port=8000)
