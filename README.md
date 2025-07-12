@@ -1,23 +1,27 @@
-# VCF Bot — Subscription-Enabled Telegram Bot
+# 📂 Telegram TXT Bot
 
-A Telegram bot that:
-- Converts TXT (phone numbers) → VCF
-- Renames VCF contact files
-- Supports time-based subscriptions and free trials
-- Designed for deployment on Termux/Linux
+A feature-rich Telegram bot to **split and merge `.txt` files**, with built-in **subscription and trial system**.
 
-## 🧰 Features
+---
 
-✅ TXT to VCF Converter  
-✅ VCF Contact Renamer  
-✅ Trial Limit for Free Users  
-✅ Admin-only subscription commands  
-✅ Works in Termux or desktop Python  
+## ✅ Features
 
-## 🛠 Setup
+- 📤 **Split TXT** files by:
+  - Number of lines per file
+  - Number of parts (files)
+- 📥 **Merge multiple TXT** files into one
+- 🆓 **Trial system** (default 2 uses)
+- 🔐 **Subscription system**
+  - Admin-only commands to manage plans
+  - Supports 1-day, 1-week, and 1-year plans
+- 🔄 **Back button** navigation
+- ⚙️ **Works on Termux / Linux**
 
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the repo or upload your script:
 ```bash
-git clone https://github.com/captain-papaji/vcf-bot-pro-subscription-ready
-cd vcf-bot-pro-subscription-ready
-pip install -r requirements.txt
-python bot.py
+git clone https://github.com/yourusername/txt-bot.git
+cd txt-bot
